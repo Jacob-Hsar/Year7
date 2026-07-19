@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>House of J&S Computer Training Center - Assessment</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
+        .unselectable { pointer-events: none; }
+        input[type="text"]:focus { outline: 2px solid #3b82f6; }
+        @media print { body { display: none; } }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans leading-relaxed" oncontextmenu="return false" oncopy="return false" oncut="return false" onpaste="return false">
+
+    <div class="max-w-5xl mx-auto py-10 px-4">
+        <!-- Header -->
+        <div class="bg-blue-800 text-white p-8 rounded-t-xl shadow-lg text-center">
+            <!-- Logo Container -->
+            <div id="logoContainer" class="mb-4">
+                <img src="logo.png" alt="Center Logo" class="mx-auto rounded-full border-4 border-white shadow-lg w-24 h-24 object-cover">
+            </div>
+            <h1 class="text-3xl font-bold mb-2">House of J&S Computer Training Center</h1>
+            <p class="text-xl">Unit 1 to Unit 6: Comprehensive Assessment</p>
+            <div class="mt-6 flex flex-wrap justify-center gap-4">
+                <input type="text" id="studentName" placeholder="Enter Student Name" class="p-2 rounded text-gray-800 w-64 border-none outline-none">
+               
+            </div>
+        </div>
+
+        <div class="bg-white p-8 shadow-md border-x border-b rounded-b-xl">
+            <form id="quizForm">
+                <!-- Section 1: MCQ -->
+                <section class="mb-12">
+                    <h2 class="text-2xl font-bold text-blue-800 border-b-2 border-blue-200 pb-2 mb-6">Section A: Multiple Choice (25 Marks)</h2>
+                    <div id="mcqContainer" class="space-y-6"></div>
+                </section>
+
+                <!-- Section 2: Fill in the Blanks -->
+                <section class="mb-12">
+                    <h2 class="text-2xl font-bold text-blue-800 border-b-2 border-blue-200 pb-2 mb-6">Section B: Fill in the Blanks (20 Marks)</h2>
+                    <div class="bg-yellow-50 p-4 rounded mb-4 text-sm font-semibold text-yellow-800 border border-yellow-200">
+                        Word Bank: [ WWW, Binary, ASCII, Placeholder, Encryption, Router, Latency, Bandwidth, 70 years, Plagiarism, Template, PDF, 8 bits, DNS, IP Address, Python, Algorithm, IDE, Boolean, Integer ]
+                    </div>
+                    <div id="fibContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+                </section>
+
+                <!-- Section 3: Matching -->
+                <section class="mb-12">
+                    <h2 class="text-2xl font-bold text-blue-800 border-b-2 border-blue-200 pb-2 mb-6">Section C: Matching (15 Marks)</h2>
+                    <div id="matchingContainer" class="space-y-3"></div>
+                </section>
+
+                <!-- Section 4: Short Questions -->
+                <section class="mb-12">
+                    <h2 class="text-2xl font-bold text-blue-800 border-b-2 border-blue-200 pb-2 mb-6">Section D: Short Questions (40 Marks)</h2>
+                    <div id="shortQuestContainer" class="space-y-6"></div>
+                </section>
+
+                <!-- Section 5: Long Questions -->
+                <section class="mb-12">
+                    <h2 class="text-2xl font-bold text-blue-800 border-b-2 border-blue-200 pb-2 mb-6">Section E: Long Questions (20 Marks)</h2>
+                    <div id="longQuestContainer" class="space-y-8"></div>
+                </section>
+
+                <div class="text-center py-10">
+                    <button type="button" onclick="calculateResult()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-12 rounded-full text-xl shadow-lg transition-all transform hover:scale-105">Submit Assessment</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Result Overlay -->
+        <div id="resultModal" class="hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50">
+            <div class="bg-white p-8 rounded-xl max-w-lg w-full text-center shadow-2xl">
+                <h2 class="text-3xl font-bold text-blue-800 mb-4">Assessment Result</h2>
+                <p id="resName" class="text-xl mb-2 font-semibold"></p>
+                <div class="my-6 border-y py-4">
+                    <p class="text-lg">Total Raw Score: <span id="rawScore" class="font-bold text-2xl">0</span> / 120</p>
+                    <p class="text-3xl font-bold text-green-600 mt-2">Percentage: <span id="percentScore">0</span>%</p>
+                </div>
+                <div id="gradeText" class="text-2xl font-bold mb-6"></div>
+                <button onclick="location.reload()" class="bg-gray-800 text-white px-6 py-2 rounded">Restart Assessment</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data and Logic remain the same as previously defined
+        const mcqData = [
+            { q: "What is the Internet?", a: ["A network of computers around the world", "A single hard drive", "A software for typing", "A computer monitor"], c: 0 },
+            { q: "What is the World Wide Web (WWW) used for?", a: ["Sending emails", "Viewing web pages", "Repairing computer parts", "Turning off power"], c: 1 },
+            { q: "What do you call a website built to spread fake news?", a: ["Educational site", "Spoof website", "Official site", "Search engine"], c: 1 },
+            { q: "What is the movement effect between slides in a presentation called?", a: ["Animation", "Transition", "Design theme", "Layout"], c: 1 },
+            { q: "What does 'Socio-economic factor' refer to?", a: ["Standard of living and economy", "Computer speed", "Internet connection type", "Color selection"], c: 0 },
+            { q: "Which base does the Binary system use?", a: ["Base 10", "Base 2", "Base 8", "Base 16"], c: 1 },
+            { q: "How many characters are there in the basic ASCII table?", a: ["255", "128", "1024", "50"], c: 1 },
+            { q: "How many octets are in an IP address?", a: ["2", "4", "6", "8"], c: 1 },
+            { q: "Which function is used to display a message in Python?", a: ["input()", "print()", "write()", "show()"], c: 1 },
+            { q: "What is an algorithm?", a: ["Computer virus", "Step by step instructions", "A programming language", "A type of mouse"], c: 1 },
+            { q: "Which device connects different networks?", a: ["Monitor", "Router", "Keyboard", "Printer"], c: 1 },
+            { q: "What is Bandwidth?", a: ["Amount of data transferred", "Computer weight", "Screen resolution", "Software size"], c: 0 },
+            { q: "What does PDF stand for?", a: ["Portable Document Format", "Personal Data File", "Public Digital Form", "Private Document Folder"], c: 0 },
+            { q: "How many bits are in 1 Byte?", a: ["4", "8", "16", "32"], c: 1 },
+            { q: "What is Unicode primarily used for?", a: ["English only", "International languages", "Playing games", "Drawing"], c: 1 },
+            { q: "Which file type do viruses often hide in?", a: ["Word file", "Compressed/Zip file", "Image file", "Text file"], c: 1 },
+            { q: "What does IDE stand for?", a: ["Internal Data Editor", "Integrated Development Environment", "Internet Device Engine", "Input Design Element"], c: 1 },
+            { q: "What are whole numbers called in data types?", a: ["String", "Integer", "Boolean", "Float"], c: 1 },
+            { q: "What is the Denary value of Capital 'A' in ASCII?", a: ["65", "97", "48", "32"], c: 0 },
+            { q: "What is an example of a search engine?", a: ["Word", "Excel", "Google", "Photoshop"], c: 2 },
+            { q: "What is the minimum recommended character length for a strong password?", a: ["4", "8", "2", "6"], c: 1 },
+            { q: "How many years after the creator's death does copyright usually last?", a: ["10 years", "70 years", "5 years", "100 years"], c: 1 },
+            { q: "What is Plagiarism?", a: ["Stealing someone's work as your own", "Installing new software", "Finding errors", "Searching the internet"], c: 0 },
+            { q: "What is an advantage of Cloud Computing?", a: ["No internet required", "Work from anywhere", "Always free", "Cannot have viruses"], c: 1 },
+            { q: "What is considered the 'brain' of the computer?", a: ["RAM", "Hard Drive", "CPU", "Monitor"], c: 2 }
+        ];
+
+        const fibAnswers = ["WWW", "Binary", "ASCII", "Placeholder", "Encryption", "Router", "Latency", "Bandwidth", "70 years", "Plagiarism", "Template", "PDF", "8 bits", "DNS", "IP Address", "Python", "Algorithm", "IDE", "Boolean", "Integer"];
+        const fibQuestions = [
+            "Pages on the internet are collectively known as the ______.",
+            "The only language a computer understands is ______.",
+            "The 7-bit system used for English characters is called ______.",
+            "Leaving empty space for images or text on a page is a ______.",
+            "The process of changing data to prevent theft is called ______.",
+            "A device that connects a home network to the internet is a ______.",
+            "Delays or slowness in computer responsiveness is called ______.",
+            "The amount of data that can be sent per second is ______.",
+            "Copyright duration usually lasts ______ after the creator passes away.",
+            "Presenting someone else's work as your own is ______.",
+            "A pre-made layout for repeated use is a ______.",
+            "A file format that keeps its design on any device is ______.",
+            "1 Byte contains ______.",
+            "A system that converts website names to IP addresses is ______.",
+            "A unique address for every computer is an ______.",
+            "A popular text-based coding language used in schools is ______.",
+            "Step-by-step instructions to solve a problem is an ______.",
+            "Software used to write and test code is an ______.",
+            "A data type with only True or False values is ______.",
+            "Numbers without decimals are called ______."
+        ];
+
+        const matchingData = [
+            { l: "CPU", r: "Central Processing Unit" },
+            { l: "RAM", r: "Random Access Memory" },
+            { l: "LAN", r: "Local Area Network" },
+            { l: "Wi-Fi", r: "Wireless Connection" },
+            { l: "URL", r: "Uniform Resource Locator" },
+            { l: "HTML", r: "HyperText Markup Language" },
+            { l: "SSD", r: "Solid State Drive" },
+            { l: "OS", r: "Operating System" },
+            { l: "ISP", r: "Internet Service Provider" },
+            { l: "VPN", r: "Virtual Private Network" },
+            { l: "Bit", r: "Smallest unit of data" },
+            { l: "MOD", r: "Remainder of division" },
+            { l: "DIV", r: "Quotient of division" },
+            { l: "String", r: "Sequence of characters" },
+            { l: "Bug", r: "Error in programming" }
+        ];
+
+        const shortQuests = [
+            "What is a spoof website?", "Give one difference between the WWW and the Internet.", "Write about the importance of Slide Layout in a presentation.", "What is a storyboard?", "Name 3 search engines.", "What is House Style?", "Mention 2 types of biometric data.", "What is copyright-free content?", "What is a P2P network?", "What is the main advantage of cloud-based computing?", "List 2 items that should be in a newsletter.", "Write the difference between a header and a footer.", "What is an infographic?", "Name 3 components of a data packet.", "Explain the difference between ASCII and Unicode.", "Write the difference between bandwidth and speed.", "Show 2 relational operators using symbols.", "What is a variable?", "What is a syntax error?", "What is a trace table used for?"
+        ];
+
+        const longQuests = [
+            "Why is it necessary to have a strong password when using a computer? (Explain in 4 points)",
+            "Discuss the pros and cons of cloud-based collaboration.",
+            "Explain the difference between internet filtering and censorship with examples.",
+            "Write the step-by-step process of converting the Denary number 158 into 8-bit Binary.",
+            "Explain the difference between computer models and simulations with examples."
+        ];
+
+        // Injections
+        const mcqContainer = document.getElementById('mcqContainer');
+        mcqData.forEach((item, index) => {
+            let options = item.a.map((opt, i) => `
+                <label class="flex items-center space-x-3 p-2 hover:bg-blue-50 rounded cursor-pointer">
+                    <input type="radio" name="mcq${index}" value="${i}" class="form-radio h-5 w-5 text-blue-600">
+                    <span>${opt}</span>
+                </label>
+            `).join('');
+            mcqContainer.innerHTML += `<div class="bg-white p-4 border rounded shadow-sm"><p class="font-bold mb-3">${index + 1}. ${item.q}</p><div class="grid grid-cols-1 md:grid-cols-2 gap-2">${options}</div></div>`;
+        });
+
+        const fibContainer = document.getElementById('fibContainer');
+        fibQuestions.forEach((q, index) => {
+            fibContainer.innerHTML += `<div class="p-3 border rounded flex flex-col gap-2"><label class="text-sm font-medium text-gray-700">${index + 1}. ${q}</label><input type="text" id="fib${index}" class="border-b-2 border-gray-300 focus:border-blue-500 p-1 outline-none"></div>`;
+        });
+
+        const matchContainer = document.getElementById('matchingContainer');
+        const shuffledR = [...matchingData].sort(() => Math.random() - 0.5);
+        matchingData.forEach((item, index) => {
+            let selectOptions = shuffledR.map(s => `<option value="${s.r}">${s.r}</option>`).join('');
+            matchContainer.innerHTML += `<div class="flex items-center justify-between p-3 border-b"><span class="font-bold w-1/4">${item.l}</span><span class="text-gray-400">-----------</span><select id="match${index}" class="w-2/3 p-2 border rounded"><option value="">Choose matching answer...</option>${selectOptions}</select></div>`;
+        });
+
+        const sqContainer = document.getElementById('shortQuestContainer');
+        shortQuests.forEach((q, index) => {
+            sqContainer.innerHTML += `<div><p class="font-bold mb-2">${index + 1}. ${q}</p><textarea id="sq${index}" class="w-full p-3 border rounded h-20" placeholder="Your answer..."></textarea></div>`;
+        });
+
+        const lqContainer = document.getElementById('longQuestContainer');
+        longQuests.forEach((q, index) => {
+            lqContainer.innerHTML += `<div class="bg-blue-50 p-6 rounded-lg border border-blue-100"><p class="font-bold text-lg mb-4">${index + 1}. ${q}</p><textarea id="lq${index}" class="w-full p-4 border rounded h-48 bg-white" placeholder="Explain in detail..."></textarea></div>`;
+        });
+
+        function calculateResult() {
+            const name = document.getElementById('studentName').value;
+            if (!name) { alert("Please enter your name!"); return; }
+            let score = 0;
+            mcqData.forEach((item, index) => { const selected = document.querySelector(`input[name="mcq${index}"]:checked`); if (selected && parseInt(selected.value) === item.c) score += 1; });
+            fibAnswers.forEach((ans, index) => { const input = document.getElementById(`fib${index}`).value.trim().toLowerCase(); if (input === ans.toLowerCase()) score += 1; });
+            matchingData.forEach((item, index) => { const selected = document.getElementById(`match${index}`).value; if (selected === item.r) score += 1; });
+            shortQuests.forEach((q, index) => { const val = document.getElementById(`sq${index}`).value.trim(); if (val.length > 5) score += 2; });
+            longQuests.forEach((q, index) => { const val = document.getElementById(`lq${index}`).value.trim(); if (val.length > 20) score += 4; });
+            const percentage = ((score / 120) * 100).toFixed(2);
+            document.getElementById('resName').innerText = "Student Name: " + name;
+            document.getElementById('rawScore').innerText = score;
+            document.getElementById('percentScore').innerText = percentage;
+            let grade = percentage >= 80 ? "Grade A - Excellent!" : percentage >= 65 ? "Grade B - Good Job!" : percentage >= 40 ? "Grade C - Passed" : "Grade D - Needs Improvement";
+            document.getElementById('gradeText').innerText = grade;
+            document.getElementById('gradeText').className = percentage >= 40 ? "text-2xl font-bold mb-6 text-blue-600" : "text-2xl font-bold mb-6 text-red-600";
+            document.getElementById('resultModal').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
